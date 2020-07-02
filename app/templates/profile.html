@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <h3>Welcome {{current_user.fname}}</h3>
+{% if current_user.profile_picture == 'default.jpg' %}
+    <img src="{{ current_user.gravatar() }}" alt="">
+{% else %}
+    <img class="rounded-img" src="{{ url_for('static/profileimages', filename='current_user.profile_picture') }}" alt="">
+{% endif %}
 {% endblock %}
