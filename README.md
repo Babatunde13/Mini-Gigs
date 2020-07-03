@@ -7,6 +7,7 @@ The main directory is the `app` directory which contains all the code for the pr
 The migrations directory is useful when there's any change in the model like adding columns, or tables just write `flask db migrate` to make migrations <br>
 
 This directory can be describes with the tree like structure below:
+```
 mini-gigs----¬
         !   app/---¬
         !           !----templates/---¬
@@ -26,3 +27,4 @@ mini-gigs----¬
         !--REAFME.txt
         !--requirements.txt (the dependency of the app)
         !--challenges.txt (module that contains the problem I faced and how I solved them)
+```
