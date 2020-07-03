@@ -7,7 +7,6 @@ from werkzeug.security import (
     generate_password_hash, check_password_hash)
 from flask_login import  (login_user, logout_user, 
                 login_required, current_user)
-from flask_mail import Message
 
 #Local imports
 from app import app, db, mail
@@ -17,6 +16,7 @@ from app.forms import (LoginForm, RegisterForm,
 from app.models import (User, Job,
             WorkExperience, Education,
             Interest, Skill)
+from app.utils import send_mail, save_pic
 
 @app.route('/')
 def home():
@@ -55,6 +55,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Account created successfully.', 'success')
+        login_user(user)
         return redirect(url_for('profile'))
     return render_template('register.html', form=form)
 
@@ -74,14 +75,6 @@ def profile():
     if not current_user.is_confirmed:
         flash("You haven't confirm your account", 'warning')
     return render_template('profile.html')
-
-def send_mail(user, template, subject, exp=None, **kwargs):
-    token=user.get_reset_token(expires_sec=exp)
-    msg=Message(sender=app.config['MAIL_USERNAME'],
-                recipients=[user.email],
-                html=render_template(template, token=token, user=user),
-                subject=app.config['MAIL_SUBJECT']+ ' ' +subject)
-    mail.send(msg)
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
@@ -121,16 +114,6 @@ def reset_token(token):
                             title='Reset Password',
                             form=form)
 
-def save_pic(picture, save_path):
-    import secrets, os
-    from PIL import Image
-    file_name = secrets.token_hex(8) +os.path.splitext(picture.filename)[1]
-    file_path = os.path.join(app.root_path, save_path, file_name)
-    if save_path == 'static/profileimages':
-        picture = Image.open(picture)
-        picture.thumbnail((150, 150))
-    picture.save(file_path)
-    return file_name
 
 @app.route('/profile/update', methods=['GET', 'POST'])
 @login_required
@@ -142,7 +125,7 @@ def update_profile():
             current_user.resume = pic_file
         if form.profile_picture.data:
             pic_file_ = save_pic(form.profile_picture.data, 'static/profileimages')
-            current_user.resume = pic_file_
+            current_user.profile_picture = pic_file_
         current_user.username = form.username.data
         current_user.email = form.email.data
         current_user.fname = form.fname.data

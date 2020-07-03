@@ -86,7 +86,7 @@ class UpdateAccountForm(FlaskForm):
                                             Email()])
     fname=StringField('First Name', validators=[DataRequired(),
                                                 Length(2, 20)])
-    lname=StringField('Last Name', validators=[DataRequired(),
+    lname=StringField('Last  Name', validators=[DataRequired(),
                                                 Length(2, 20)])
     profile_picture=FileField('Upload Profile Picture', validators=[ 
                                 FileAllowed(['png', 'jpg'])])

@@ -4,9 +4,11 @@
 {% if current_user.profile_picture == 'default.jpg' %}
     <img src="{{ current_user.gravatar() }}" alt="">
 {% else %}
-    <img class="rounded-img" src="{{ url_for('static/profileimages', filename='current_user.profile_picture') }}" alt="">
-    {% endif %}
+    <img class="rounded-img" src="{{ url_for('static', filename='profileimages/'+current_user.profile_picture) }}" alt="">
+{% endif %}
     <a class="btn btn-lg btn-info" href="{{ url_for('update_profile') }}">Update Profile</a>
-    <a class="btn btn-lg btn-info" href="{{ url_for('confirm') }}">Confirm Profile</a>
+    {% if not current_user.is_confirmed %}
+        <a class="btn btn-lg btn-info" href="{{ url_for('confirm') }}">Confirm Profile</a>
+    {% endif %}
 {% endblock %}
 <!-- btn btn-primary btn-lg btn-block -->

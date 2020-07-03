@@ -1,0 +1,7 @@
+I had some challenges working on this project
+
+1 I had alot of issues adjusting the styles of the web pages using pure css
+2. Initially my flash messages wasn't working, I don't know why though
+3. While creating my custom form validators, I didn't define the validators well, I used return instead of raise
+4. While updating the models, I got sql alchemy error, I solved this by making migrations
+5. 
