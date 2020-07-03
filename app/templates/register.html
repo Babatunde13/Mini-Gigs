@@ -68,6 +68,10 @@
                             {{ form.lname(class='form-control-lg form-control') }}
                         {% endif %}
                     </div>
+                    <div class="form-check">
+                        {{ form.is_recruiter(class='form-check-input') }}
+                        {{ form.is_recruiter.label(class='form-check-label') }}
+                    </div>
                     <div class="form-group">
                         {{ form.password.label(class='form-control-label') }}
                         {% if form.password.errors %}

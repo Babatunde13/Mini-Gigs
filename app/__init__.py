@@ -14,12 +14,16 @@ login_manager = LoginManager(app)
 login_manager.login_view='login'
 login_manager.login_message='You need to login first to access this page'
 login_manager.login_message_category='info'
+
+
+
 login_manager.session_protection='strong'
-app.config['MAIL_SERVER']=os.environ.get('MAIL_SERVER')
+app.config['MAIL_SERVER']=os.environ.get('MAIL_SERVER') or 'smtp.gmail.com'
 app.config['MAIL_PORT']=587
 app.config['MAIL_USE_TLS']=True
-app.config['MAIL_USERNAME']=os.environ.get('EMAIL_USER')
-app.config['MAIL_PASSWORD']=os.environ.get('EMAIL_PASS')
+app.config['MAIL_USERNAME']=os.environ.get('EMAIL_USER') or 'koikibabatunde14@gmail.com'
+app.config['MAIL_PASSWORD']=os.environ.get('EMAIL_PASS') or 'nifeaccumulator'
+app.config['MAIL_SUBJECT']='Mini Gigs'
 mail= Mail(app)
 migrate = Migrate(app, db)
 

@@ -17,7 +17,7 @@
 </head>
 <body>
     <header class="site-header">
-        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" style="background-color: aqua;">
+        <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top" style="background-color: aqua;">
           <div class="container">
             <a class="navbar-brand mr-4" href="/">Mini Gigs</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,11 +42,14 @@
         </nav>
     </header>
     <main role="main" class="container">
-        <div class="row">
-            <div class="col-12">
                 {% with messages = get_flashed_messages(with_categories=True) %}
                     {% if messages %}
                         {% for category, message in messages %}
+
+
+
+
+
                             <div class="alert alert-{{ category }}"> 
                                 {{ message }}
                             </div>
@@ -55,8 +58,6 @@
                 {% endwith %}
                 {% block content %}{% endblock %}
                 {% block scripts %}{% endblock %}
-            </div>
-        </div>
     </main>
     <!-- <footer class="container">
         <div class="row">

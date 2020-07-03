@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <h3>Welcome to Mini Gigs</h3>
+    <p>Hello {{ user.fname }} {{ user.lname }}, we're excited to have you on board</p>
+    <p>Click the <a href="{{ url_for('confirm_profile', token=token, _external=True) }}">this</a> link to activate your account</p>
+    {% if user.is_recruiter %}
+        <p>Thanks for being one of our recruiters, we have professionals registered to our platform</p>
+    {% else %}
+    <p>Thanks for being one of our job seekers, we hope yo get your dream job on our platform as soon as possible</p>
+    {% endif %}
+    <p>Best Regards</p>
+    <h5>Director,</h5>
+    <h5>Mini Gigs team</h5>
+</body>
+</html>
