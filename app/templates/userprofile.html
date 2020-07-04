@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link href="{{url_for('static', filename='userprofile.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="teacher-name" style="padding-top:20px;">
+                <div class="row" style="margin-top:0px;">
+                    <div class="col-md-9">
+                        <h2 style="font-size:38px"><strong>{{user.fname}} {{user.lname}}</strong></h2>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="button" style="float:right;">
+                            <a href="{{ url_for('update_profile') }}" class="btn btn-outline-success btn-sm">Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-3"> <!-- Image -->
+                    {% if user.profile_picture == 'default.jpg' %}
+                        <img src="{{ user.gravatar() }}" alt="" style="width:200px;height:200px" alt="profile-image" class="rounded-circle">
+                    {% else %}
+                        <img style="width:200px;height:200px" alt="profile-image" class="profile" src="{{ url_for('static', filename='profileimages/'+user.profile_picture) }}" alt="" class="rounded-circle">
+                    {% endif %}
+                </div>
+                <div class="col-md-6"> <!-- Rank & Qualifications -->
+                    <h5 style="color:#3AAA64">
+                        Associate Professor, <small>
+                            Dept. of CSE, Jatiya Kabi Kazi Nazrul Islam University</small>
+                    </h5>
+                    <p>PhD (On study at BUET), M.Sc. in research on ICT(UPC, Spain), M.Sc. in research on ICT(UCL, Belgium).</p>
+                    <p>Address: {{user.address}}</p>
+                </div>
+                <div class="col-md-3 text-center"> <!-- Phone & Social -->
+                    <span class="number" style="font-size:18px">Phone:<strong>{{user.phone_number}}</strong></span>
+                    <div class="button" style="padding-top:18px">
+                        <a href="mailto:{{user.email}}" class="btn btn-outline-success btn-block">Send Email</a>
+                    </div>
+                    <div class="social-icons" style="padding-top:18px">
+                        {% if user.linkedin_link %}
+                        <a href="{{ user.linkedin_link }}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x" style="color:#3AAA64"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        {% endif %}
+                        {% if user.facebook_link %}
+                        <a href="{{ user.facebook_link }}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x" style="color:#3AAA64"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        {% endif %}
+                        {% if user.twitter_link %}
+                        <a href="{{ user.twitter_link }}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x" style="color:#3AAA64"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--End of Header-->
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Section:Biography -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-block text-xs-left">
+                    <h2 class="card-title" style="color:#009688"><i class="fa fa-user fa-fw"></i>Biography</h2>
+                    <div style="height: 15px"></div>
+                    <p>{{user.fname}} {{user.lname}} got B.Sc. and M.Sc. on Computer Science 
+                        and Engineering from SUST, Bagladesh in 2004 and 2005 respectively. 
+                        After graduation he served as a Lecturer at the Department of Computer 
+                        Science and Engineering (CSE) in Institute of Science, Trade and Technology, 
+                        Bangladesh. In 2009, he joined in a Public University, Jessore University of Science 
+                        and Technology, as a Lecture at the CSE Department. He then promoted as an Assistant 
+                        Professor by 2012. In 2015, Mr. Subrata changed his professional place and recruited as 
+                        an Assistant Professor at the Department of Computer Science and Engineering in Jatiya 
+                        Kabi Kazi Nazrul Islam University, Bangladesh and serving to date.</p>
+                </div>
+            </div>
+        </div>
+        <!-- End:Biography -->
+
+        <!--Section:Interests-->
+        {% if user.interests %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-block">
+                        <h2 class="card-title"  style="color:#009688"><i class="fa fa-rocket fa-fw"></i>Interests</h2>
+                        <ul class="list-group" style="margin-top:15px;margin-bottom:15px;">
+                                {% for interest in user.interests %}
+                                    <li class="list-group-item">{{interest.title}}</li>
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- End :Interests -->
+
+        <!--Section:Skills-->
+        {% if user.skills %}
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="card card-block">
+                            <h2 class="card-title"  style="color:#009688"><i class="fa fa-rocket fa-fw"></i>Skills</h2>
+                            <ul class="list-group" style="margin-top:15px;margin-bottom:15px;">
+                                {% for skill in user.skills %}
+                                    <li class="list-group-item">{{skill.title}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- End :Skills -->
+
+        <!-- Section:Work Experience -->
+        {% if user.work_experience %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-block">
+                        <h2 class="card-title" style="color:#009688"><i class="fa fa-cubes fa-fw"></i>Work Experience</h2>
+                        <div style="height: 15px"></div>
+                            <table class="table table-bordered">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Post held</th>
+                                        <th>Company</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for work in user.work_experience.order_by(end_date.desc()).all() %}
+                                        <tr>
+                                            <td>{{ work.start_date.strftime('%B %Y') }} - {{ work.end_date.strftime('%B %Y') }}</td>
+                                            <td>{{ work.title }}</td>
+                                            <td>{{ work.company }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- End:Work Experience -->
+
+        <!-- Section:Education -->
+        {% if user.education_details %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-block">
+                        <h2 class="card-title" style="color:#009688"><i class="fa fa-book fa-fw"></i>Education</h2>
+                        <div style="height: 15px"></div>
+                            <table class="table table-bordered">
+                                <thead class="thead-default" >
+                                    <tr>
+                                        <th>Program</th>
+                                        <th>Start date - End data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for edu in user.education_details %}
+                                        <tr>
+                                            <td>{{edu.title}}</td>
+                                            <td>{{edu.start_date.strftime('%b %Y')}} -  {{ edu.end_date.strftime('%b %Y') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- End:Education -->
+
+    </div> 
+{% endblock %}

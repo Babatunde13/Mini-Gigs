@@ -88,6 +88,7 @@ class UpdateAccountForm(FlaskForm):
                                                 Length(2, 20)])
     lname=StringField('Last  Name', validators=[DataRequired(),
                                                 Length(2, 20)])
+    address=TextAreaField('Address', validators=[DataRequired()])
     profile_picture=FileField('Upload Profile Picture', validators=[ 
                                 FileAllowed(['png', 'jpg'])])
     resume=FileField('Upload Profile Picture', validators=[ 

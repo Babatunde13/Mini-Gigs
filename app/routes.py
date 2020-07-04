@@ -1,7 +1,7 @@
 '''Module for creating endpoints/view functions to the app'''
 
 # Third party imports
-from flask import (render_template, redirect, 
+from flask import (render_template, redirect, abort,
                     url_for, flash, request)
 from werkzeug.security import (
     generate_password_hash, check_password_hash)
@@ -29,7 +29,7 @@ def login():
     #checks if all form inputs are validated and the submit button is clicked
     if form.validate_on_submit():
         email = form.email.data
-        user=User.query.filter_by(email=email).first()
+        user=User.query.filter_by(email=email).first_or_404()
 
         #checks if username exist in the db and if password matches, then logs user in and redirects to the profile page
         if user and check_password_hash(user.password, form.password.data):
@@ -74,7 +74,23 @@ def about():
 def profile():
     if not current_user.is_confirmed:
         flash("You haven't confirm your account", 'warning')
-    return render_template('profile.html')
+    if current_user.is_recruiter:
+        return render_template('recruitprofile.html', user=current_user)
+    else:
+        return render_template('userprofile.html', user=current_user)
+    
+@app.route('/profile/<name>')
+# @login_required
+def profile_(name):
+    user=User.query.filter_by(username=name).first_or_404()
+    if current_user.is_authenticated and user==current_user:
+        return redirect(url_for('profile'))
+    if not user.is_confirmed:
+        flash("You haven't confirm your account", 'warning')
+    if user.is_recruiter:
+        return render_template('recruitprofile.html', user=user)
+    else:
+        return render_template('userprofile.html', user=user)
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
@@ -118,6 +134,8 @@ def reset_token(token):
 @app.route('/profile/update', methods=['GET', 'POST'])
 @login_required
 def update_profile():
+    if not current_user.is_authenticated:
+        return abort(403)
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.resume.data:
@@ -137,6 +155,7 @@ def update_profile():
         current_user.twitter_link = form.twitter_link.data
         current_user.linkedin_link = form.linkedin_link.data
         current_user.salary_expt = form.salary.data
+        current_user.address = form.address.data
         db.session.commit()
         flash('Your account has been updated', 'success')
         return redirect(url_for('profile'))
@@ -144,6 +163,7 @@ def update_profile():
     form.email.data = current_user.email
     form.fname.data = current_user.fname
     form.lname.data = current_user.lname
+    form.address.data = current_user.address
     form.is_admin.data = current_user.is_super_admin
     form.is_actively_interviewing.data = current_user.is_actively_interviewing
     form.is_recruiter.data = current_user.is_recruiter

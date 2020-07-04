@@ -45,6 +45,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True ,nullable=False)
     profile_picture=db.Column(db.String, default='default.jpg')
     resume=db.Column(db.String)
+    address=db.Column(db.Text)
     is_super_admin=db.Column(db.Boolean, default=False)
     is_confirmed=db.Column(db.Boolean, default=False)
     is_recruiter=db.Column(db.Boolean, default=False)
@@ -126,6 +127,7 @@ class WorkExperience(db.Model):
     start_date=db.Column(db.DateTime, default=datetime.utcnow)
     end_date=db.Column(db.DateTime, default=datetime.utcnow)
     impact=db.Column(db.String)
+    company=db.Column(db.String(30), nullable=False)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -137,6 +139,7 @@ class Education(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title=db.Column(db.String(30), nullable=False)
     description=db.Column(db.Text, nullable=False)
+    school=db.Column(db.String(30), nullable=False)
     start_date=db.Column(db.DateTime, default=datetime.utcnow)
     end_date=db.Column(db.DateTime, default=datetime.utcnow)
     impact=db.Column(db.String)

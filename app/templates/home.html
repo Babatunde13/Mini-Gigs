@@ -1,4 +1,164 @@
 {% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+{% endblock %}
 {% block content %}
-<h2>Welcome</h2>
+    <section class="py-5 mt-4 bg-warning text-light">
+        <div class="container">
+            <div class="row">
+                <h2>How can we help?</h2>
+            </div>
+        </div>
+    </section>
+    <section class="services py-5 bg-light text-center">
+        <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Full Service</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Schedule Pickup</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Roadside Service</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Car Wash</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            
+        </div>
+        <div class="row pt-4">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Battery Replacement</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Denting/Penting</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Parts Replacement</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Tyres Services</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            
+        </div>
+        <div class="row pt-4">
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Upload Cars Photos</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Upload Car Details</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            <div class="col-xs-12 col-sm-6 col-md-3">
+                <a href="#" class="text-body">
+                    <div class="card bg-warning mb-3">
+                        <div class="card-body">
+                        <i class="fa fa-tachometer fa-4x "></i></br>
+                            <small class="text-secondary">Mileage (upto)</small>
+                            <h5>Track History</h5>
+                        </div>
+                    </div>
+                </a>
+                </div>
+            
+            
+        </div>
+        </div>
+    </section>
+<section class="pt-2 bg-dark text-light">
+    <div class="container">
+        <div class="row">
+            <p>All Rights Reserved</p>
+        </div>
+    </div>
+</section>
 {% endblock %}

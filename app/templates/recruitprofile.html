@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='recruitprofile.css') }}">
+{% endblock %}
+{% block content %}
+<section>
+    <div class="container mt-2">
+    	<div class="row">
+    	    <div class="col-md-3"></div>
+    		
+    		<!--Profile Card 3-->
+    		<div class="col-md-6">
+    		    <div class="card profile_card">
+    		        <div class="background-block">
+    		            <img src="https://live.staticflickr.com/7368/26944418810_1c420df3e3_b.jpg" alt="profile-sample1" class="background"/>
+
+    		        </div>
+    		        <div class="profile-thumb-block">
+                        {% if user.profile_picture == 'default.jpg' %}
+                            <img src="{{ user.gravatar() }}" alt="" style="width: 120px; height: 99px;" alt="profile-image" class="profile">
+                        {% else %}
+                            <img style="width: 120px; height: 99px;" alt="profile-image" class="profile" src="{{ url_for('static', filename='profileimages/'+user.profile_picture) }}" alt="">
+                        {% endif %}
+    		        </div>
+    		        <div class="card-content">
+                        <span style="font-size: 20px; font-weight: 600;">{{user.fname}}  {{ user.lname }}</span>
+                        <a href="{{url_for('update_profile')}}"><img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/edit.svg" class="edt_icon"></a>
+                        <div class="icon-block">
+                            <a href="{{ user.facebook_link }}">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a href="{{ user.twitter_link }}"> 
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a href="{{ user.linkedin_link }}">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+    	</div>
+    </div>
+</section>
+<div class="box">
+    <div class="container">
+     	<div class="row">
+			 
+			    <div class="col-sm-4 col-xs-12 ">
+               
+					<div class="box-part text-center bg-light">
+                        
+                        <img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/address.svg" class="icon_bottom_s">
+                        
+						<div class="title">
+							<h4>Address</h4>
+						</div>
+                        
+						<div class="text">
+							<span>{{ user.address }}</span>
+						</div>
+                        
+						<!-- <a href="#">Learn More</a> -->
+                        
+					 </div>
+				</div>	 
+				
+				 <div class="col-sm-4 col-xs-12  ">
+               
+					<div class="box-part text-center bg-light">
+					    
+					    <img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/company.svg" class="icon_bottom_s">
+                    
+						<div class="title">
+							<h4>Company</h4>
+						</div>
+                        
+						<div class="text">
+							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
+						</div>
+                        
+						<a href="#">Learn More</a>
+                        
+					 </div>
+				</div>	 
+				
+				 <div class="col-sm-4 col-xs-12 ">
+               
+					<div class="box-part text-center bg-light">
+                        
+                        <img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/gift.svg" class="icon_bottom_s">
+                        
+						<div class="title">
+							<h4>Benefits Provided</h4>
+						</div>
+                        
+						<div class="text">
+							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
+						</div>
+                        
+						<a href="#">Learn More</a>
+                        
+					 </div>
+				</div>	 
+			
+		
+        </div>		
+        
+    </div>
+</div>
+{% endblock %}

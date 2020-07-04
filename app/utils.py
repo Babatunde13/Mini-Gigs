@@ -15,6 +15,7 @@ def send_mail(user, template, subject, exp=None, **kwargs):
         function doesn't return anything, just send mail
     
     '''
+    from flask import render_template # For rendering html files
     from flask_mail import Message # imports the function that connects the mail to the server.
     token=user.get_reset_token(expires_sec=exp)
     msg=Message(sender=app.config['MAIL_USERNAME'],

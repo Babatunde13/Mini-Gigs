@@ -14,9 +14,9 @@ mini-gigs----¬
         !           !                 !-all html files
         !           !
         !           !----static/------¬
-        !                           !----all css files
-        !                           !-----resume/
-        !                           !-----profileimages/
+        !                              !----all css files
+        !                              !-----resume/
+        !                              !-----profileimages/
         !           !----routes.py (module for view function)
         !           !----models.py (module for creating db models)
         !           !----forms.py (module for flask forms)
