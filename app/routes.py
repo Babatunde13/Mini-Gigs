@@ -29,7 +29,7 @@ def login():
     #checks if all form inputs are validated and the submit button is clicked
     if form.validate_on_submit():
         email = form.email.data
-        user=User.query.filter_by(email=email).first_or_404()
+        user=User.query.filter_by(email=email).first()
 
         #checks if username exist in the db and if password matches, then logs user in and redirects to the profile page
         if user and check_password_hash(user.password, form.password.data):
@@ -156,6 +156,10 @@ def update_profile():
         current_user.linkedin_link = form.linkedin_link.data
         current_user.salary_expt = form.salary.data
         current_user.address = form.address.data
+        skill=form.skills.data
+        interest=form.interests.data
+        current_user.skills.append(Skill(title=skill))
+        current_user.interests.append(Interest(title=interest))
         db.session.commit()
         flash('Your account has been updated', 'success')
         return redirect(url_for('profile'))

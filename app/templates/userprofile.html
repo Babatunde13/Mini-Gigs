@@ -39,9 +39,11 @@
                 </div>
                 <div class="col-md-3 text-center"> <!-- Phone & Social -->
                     <span class="number" style="font-size:18px">Phone:<strong>{{user.phone_number}}</strong></span>
+                    {% if user != current_user %}
                     <div class="button" style="padding-top:18px">
                         <a href="mailto:{{user.email}}" class="btn btn-outline-success btn-block">Send Email</a>
                     </div>
+                    {% endif %}
                     <div class="social-icons" style="padding-top:18px">
                         {% if user.linkedin_link %}
                         <a href="{{ user.linkedin_link }}">
@@ -104,7 +106,7 @@
                         <h2 class="card-title"  style="color:#009688"><i class="fa fa-rocket fa-fw"></i>Interests</h2>
                         <ul class="list-group" style="margin-top:15px;margin-bottom:15px;">
                                 {% for interest in user.interests %}
-                                    <li class="list-group-item">{{interest.title}}</li>
+                                    <li class="list-group-item">{{interest.name}}</li>
                                 {% endfor %}
                         </ul>
                     </div>
@@ -121,7 +123,7 @@
                             <h2 class="card-title"  style="color:#009688"><i class="fa fa-rocket fa-fw"></i>Skills</h2>
                             <ul class="list-group" style="margin-top:15px;margin-bottom:15px;">
                                 {% for skill in user.skills %}
-                                    <li class="list-group-item">{{skill.title}}</li>
+                                    <li class="list-group-item">{{skill.name}}</li>
                                 {% endfor %}
                             </ul>
                         </div>

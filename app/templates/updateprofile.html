@@ -15,7 +15,7 @@
                     {{ form.hidden_tag() }}
                     <div class="profile-img">
                         {% if current_user.profile_picture == 'default.jpg' %}
-                        <img src="{{ current_user.gravatar() }}" alt="">
+                        <img src="{{ current_user.gravatar() }}" alt="profile">
                         {% else %}
                             <img class="rounded-img" src="{{ url_for('static', filename='profileimages/'+current_user.profile_picture) }}" alt="">
                         {% endif %}
@@ -108,8 +108,12 @@
                         {{ form.is_admin.label(class='form-check-label') }}
                     </div>
                     <div class="form-check">
-                        {{ form.is_actively_interviewing(class='form-check-input') }}
-                        {{ form.is_actively_interviewing.label(class='form-check-label') }}
+                        {{ form.skills(class='form-check-input') }}
+                        {{ form.skills.label(class='form-check-label') }}
+                    </div>
+                    <div class="form-check">
+                        {{ form.interests(class='form-check-input') }}
+                        {{ form.interests.label(class='form-check-label') }}
                     </div>
                     <div class="form-group">
                         {{ form.linkedin_link.label(class='form-control-label') }}
@@ -165,9 +169,6 @@
                     </div>
                     <div class="form-group">
                         {{form.submit(class="btn btn-primary btn-lg btn-block")}}
-                    </div>
-                    <div class="form-group forget-linkedin_link">
-                        <a href="{{url_for('login')}}">Sign in instead?</a>
                     </div>
                 </form>
             </div>

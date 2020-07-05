@@ -3,14 +3,17 @@
 # Third party imports
 from flask_wtf import FlaskForm
 from flask_login import current_user
+
 from wtforms import (
     StringField, PasswordField, 
-    SelectField, IntegerField, FormField,
+    SelectField, IntegerField, 
+    FormField, SelectField,
     SubmitField, BooleanField, TextAreaField)
 from wtforms.validators import (
     DataRequired, Length, url,
     Email, EqualTo, ValidationError)
 from flask_wtf.file import FileField, FileAllowed
+# from wtforms.fields.html5 import DateField
 
 # local imports
 from app.models import User
@@ -91,7 +94,7 @@ class UpdateAccountForm(FlaskForm):
     address=TextAreaField('Address', validators=[DataRequired()])
     profile_picture=FileField('Upload Profile Picture', validators=[ 
                                 FileAllowed(['png', 'jpg'])])
-    resume=FileField('Upload Profile Picture', validators=[ 
+    resume=FileField('Upload Resume', validators=[ 
                                                          FileAllowed(['pdf', 'docx'])])
     is_admin=BooleanField('Are you an Admin')
     is_actively_interviewing=BooleanField('Are you actively in search for job')
@@ -99,6 +102,24 @@ class UpdateAccountForm(FlaskForm):
     twitter_link=StringField('Twitter url', validators=[url()])
     linkedin_link=StringField('Linkedin url', validators=[url()])
     is_recruiter=BooleanField('Are you a recruiter')
+    skills = SelectField('Skills', 
+                        choices=[(1, 'C++'), 
+                                (2, 'Python'), 
+                                (3, 'JavaScript'),
+                                (4, 'Java'),
+                                (5, 'React'),
+                                (6, 'Golang'),
+                                (7, 'Rust')], 
+                        coerce=int)
+    interests = SelectField('Interests', 
+                            choices=[(1, 'Product Design'), 
+                                    (2, 'UI/UX'), 
+                                    (3, 'Software Development'),
+                                    (4, 'Artificial Intelligence'),
+                                    (5, 'Data Science'),
+                                    (6, 'Game Development'),
+                                    (7, 'Cyber Security')], 
+                            coerce=int)
     salary=IntegerField('Expected sslary')
     submit = SubmitField('Update profile')
 

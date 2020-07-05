@@ -152,8 +152,7 @@ class Education(db.Model):
 class Interest(db.Model):
     '''Interest representation in the database. The many side of a one-to-many relationship with user model'''
     id = db.Column(db.Integer, primary_key=True)
-    title=db.Column(db.String(30), nullable=False)
-    description=db.Column(db.Text, nullable=False)
+    name=db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
@@ -162,8 +161,7 @@ class Interest(db.Model):
 class Skill(db.Model):
     '''Skill representation in the database. The many side of a one-to-many relationship with user model'''
     id = db.Column(db.Integer, primary_key=True)
-    title=db.Column(db.String(30), nullable=False)
-    description=db.Column(db.Text, nullable=False)
+    name=db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
