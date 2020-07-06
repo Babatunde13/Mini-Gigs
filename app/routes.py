@@ -12,7 +12,7 @@ from flask_login import  (login_user, logout_user,
 from app import app, db, mail
 from app.forms import (LoginForm, RegisterForm, 
                 ResetPasswordForm, NewPasswordForm,
-                UpdateAccountForm)
+                UpdateAccountForm, CreateJob)
 from app.models import (User, Job,
             WorkExperience, Education,
             Interest, Skill)
@@ -20,7 +20,14 @@ from app.utils import send_mail, save_pic
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    jobs=Job.query.all()
+    tot_jobs=[]
+    for i in range(0, len(jobs), 4):
+        if i+4 >= len(jobs):
+            tot_jobs.append(jobs[i:])
+        else:
+            tot_jobs.append(jobs[i:i+3])
+    return render_template('home.html', jobs=tot_jobs)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -49,6 +56,7 @@ def register():
         email=form.email.data
         user=User(username=username,
                 password=password,
+                is_recruiter=form.is_recruiter.data,
                 email=email,
                 fname=form.fname.data,
                 lname=form.lname.data)
@@ -67,7 +75,7 @@ def logout():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', title='About Page')
 
 @app.route('/profile')
 @login_required
@@ -75,7 +83,14 @@ def profile():
     if not current_user.is_confirmed:
         flash("You haven't confirm your account", 'warning')
     if current_user.is_recruiter:
-        return render_template('recruitprofile.html', user=current_user)
+        jobs=Job.query.filter_by(creator_id=current_user.id).all()
+        tot_jobs=[]
+        for i in range(0, len(jobs), 3):
+            if i+3 >= len(jobs):
+                tot_jobs.append(jobs[i:])
+            else:
+                tot_jobs.append(jobs[i:i+3])
+        return render_template('recruitprofile.html', user=current_user, jobs=tot_jobs)
     else:
         return render_template('userprofile.html', user=current_user)
     
@@ -88,7 +103,8 @@ def profile_(name):
     if not user.is_confirmed:
         flash("You haven't confirm your account", 'warning')
     if user.is_recruiter:
-        return render_template('recruitprofile.html', user=user)
+        jobs=Job.query.filter_by(creator_id=user.id).all()
+        return render_template('recruitprofile.html', user=user, jobs=jobs)
     else:
         return render_template('userprofile.html', user=user)
 
@@ -134,11 +150,10 @@ def reset_token(token):
 @app.route('/profile/update', methods=['GET', 'POST'])
 @login_required
 def update_profile():
-    if not current_user.is_authenticated:
-        return abort(403)
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.resume.data:
+            print(form)
             pic_file = save_pic(form.resume.data, 'static/resume')
             current_user.resume = pic_file
         if form.profile_picture.data:
@@ -157,10 +172,27 @@ def update_profile():
         current_user.salary_expt = form.salary.data
         current_user.address = form.address.data
         skill=form.skills.data
+        skills = {1:'C++', 2:'Python', 3: 'JavaScript', 
+                4: 'Java', 5: 'React', 6: 'Golang', 7: 'Rust'}
         interest=form.interests.data
-        current_user.skills.append(Skill(title=skill))
-        current_user.interests.append(Interest(title=interest))
+        interests={
+            1:'Product Design', 2:'UI/UX', 3: 'Software Development', 
+            4: 'Artificial Intelligence', 5: 'Data Science', 
+            6: 'Game Development', 7: 'Cyber Security'}
+        if skill:
+            present_skill=Skill.query.filter(Skill.users.any(username=current_user.username)).all()
+            for skl in present_skill:
+                db.session.delete(skl)
+            for choice in skill:
+                current_user.skills.append(Skill(name=skills[choice]))  
+        if interest:
+            present_interest=Interest.query.filter(Interest.users.any(username=current_user.username)).all()
+            for skl in present_interest:
+                db.session.delete(skl)
+            for choice in interest:
+                current_user.interests.append(Interest(name=interests[choice]))
         db.session.commit()
+        
         flash('Your account has been updated', 'success')
         return redirect(url_for('profile'))
     form.username.data = current_user.username
@@ -201,4 +233,37 @@ def confirm_profile(token):
     db.session.commit()
     flash('Account has been confirmed', 'success')
     return redirect(url_for('profile'))
+
+@app.route('/job/new', methods=['GET', 'POST'])
+@login_required
+def add_job():
+    if not current_user.is_recruiter:
+        abort(403)
+    form = CreateJob()
+    if form.validate_on_submit():
+        title=form.title.data
+        company=form.company.data
+        description=form.description.data
+        exp_date=form.expiry_date.data
+        job=Job(title=title, 
+                comapny=company,
+                description=description, 
+                expiry_date=exp_date,
+                creator_id=current_user.id)
+        db.session.add(job)
+        db.session.commit()
+        flash('Job added successfully', 'success')
+        return redirect(url_for('profile'))
+    return render_template('addjob.html', form=form, title='Create Job')
+
+@app.route('/job/<id>')
+@login_required
+def view_job(id):
+    job=Job.query.get_or_404(id)
+    user=User.query.filter_by(id=job.creator_id).first()
+    return render_template('viewjob.html', job=job, title='View Job', user=user)
+
+@app.route('/job/apply', methods=['GET', 'POST'])
+def apply():
+    return render_template('apply_job.html')
 

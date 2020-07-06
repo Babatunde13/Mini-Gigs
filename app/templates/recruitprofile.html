@@ -23,17 +23,20 @@
                         {% endif %}
     		        </div>
     		        <div class="card-content">
-                        <span style="font-size: 20px; font-weight: 600;">{{user.fname}}  {{ user.lname }}</span>
+						{% if user == current_user %}
+						<a href="{{ url_for('add_job') }}"><i class="fa fa-plus edt_icon" aria-hidden="true"></i></a>
+						{% endif %}
+						<span style="font-size: 20px; font-weight: 600;">{{user.fname}}  {{ user.lname }}</span>
                         <a href="{{url_for('update_profile')}}"><img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/edit.svg" class="edt_icon"></a>
                         <div class="icon-block">
-                            <a href="{{ user.facebook_link }}">
-                                <i class="fa fa-facebook"></i>
+                            <a href="{{ user.facebook_link }}" target="_blank">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
                             </a>
-                            <a href="{{ user.twitter_link }}"> 
-                                <i class="fa fa-twitter"></i>
+                            <a href="{{ user.twitter_link }}" target="_blank"> 
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
                             </a>
-                            <a href="{{ user.linkedin_link }}">
-                                <i class="fa fa-linkedin"></i>
+                            <a href="{{ user.linkedin_link }}" target="_blank">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -45,67 +48,50 @@
 <div class="box">
     <div class="container">
      	<div class="row">
-			 
-			    <div class="col-sm-4 col-xs-12 ">
-               
+			<div class="col-sm-6 col-xs-12 ">
+				<div class="box-part text-center bg-light">
+					<img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/address.svg" class="icon_bottom_s">
+					<div class="title">
+						<h4>Address</h4>
+					</div>                        
+					<div class="text">
+						<span>{{ user.address }}</span>
+					</div>
+					<!-- <a href="#">Learn More</a> -->
+				</div>
+			</div>	 	
+			<div class="col-sm-6 col-xs-12  ">
+				<div class="box-part text-center bg-light">
+					<img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/company.svg" class="icon_bottom_s">                    
+					<div class="title">
+						<h4>Company</h4>
+					</div>
+					<div class="text">
+						<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
+					</div>                        
+					<a href="#">Learn More</a>                        
+				</div>
+			</div>	 							
+		</div>
+		<h3 class="title text-center">Jobs Provided</h3>		      
+		<div class="row">
+			{% for job3 in jobs %}
+			{% for job in job3 %}
+				<div class="col-sm-4 col-xs-12 ">
 					<div class="box-part text-center bg-light">
-                        
-                        <img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/address.svg" class="icon_bottom_s">
-                        
+						<img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/address.svg" class="icon_bottom_s">
 						<div class="title">
-							<h4>Address</h4>
-						</div>
-                        
+							<h4>{{ job.title }}</h4>
+						</div>                        
 						<div class="text">
-							<span>{{ user.address }}</span>
+							<span>Expires on {{ job.expiry_date.strftime('%d %B, %Y') }}</span>
 						</div>
-                        
-						<!-- <a href="#">Learn More</a> -->
-                        
-					 </div>
-				</div>	 
-				
-				 <div class="col-sm-4 col-xs-12  ">
-               
-					<div class="box-part text-center bg-light">
-					    
-					    <img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/company.svg" class="icon_bottom_s">
-                    
-						<div class="title">
-							<h4>Company</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	 
-				
-				 <div class="col-sm-4 col-xs-12 ">
-               
-					<div class="box-part text-center bg-light">
-                        
-                        <img src="https://kashyapvadi132.000webhostapp.com/uoload/profile1/gift.svg" class="icon_bottom_s">
-                        
-						<div class="title">
-							<h4>Benefits Provided</h4>
-						</div>
-                        
-						<div class="text">
-							<span>Lorem ipsum dolor sit amet, id quo eruditi eloquentiam. Assum decore te sed. Elitr scripta ocurreret qui ad.</span>
-						</div>
-                        
-						<a href="#">Learn More</a>
-                        
-					 </div>
-				</div>	 
-			
-		
-        </div>		
-        
+						<a href="{{ url_for('view_job', id=job.id) }}">Learn More</a>
+					</div>
+				</div>
+			{% endfor %}
+			{% endfor %}
+		</div> 
     </div>
 </div>
 {% endblock %}

@@ -108,6 +108,7 @@ class Job(db.Model):
     '''Job representation in the database. The many side of a many-to-many relationship with user model'''
     id = db.Column(db.Integer, primary_key=True)
     company=db.Column(db.String)
+    title=db.Column(db.String)
     description=db.Column(db.Text)
     expiry_date=db.Column(db.DateTime, default=datetime.utcnow)
     date_posted=db.Column(db.DateTime, default=datetime.utcnow)
@@ -156,7 +157,7 @@ class Interest(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.title}')"
+        return f"User('{self.name}')"
 
 class Skill(db.Model):
     '''Skill representation in the database. The many side of a one-to-many relationship with user model'''
@@ -165,5 +166,5 @@ class Skill(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.title}')"
+        return f"User('{self.name}')"
 

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-6 ads">
+                <h1><span id="fl">Mini</span><span id="sl"> Gigs</span></h1>
+            </div>
+            <div class="col-md-6 login-form">
+                <h3>Create New Job</h3>
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="profile-img">
+                        {% if current_user.profile_picture == 'default.jpg' %}
+                        <img src="{{ current_user.gravatar() }}" alt="profile">
+                        {% else %}
+                            <img class="rounded-img" src="{{ url_for('static', filename='profileimages/'+current_user.profile_picture) }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{form.title.label(class='form-control-label') }}
+                        {% if form.title.errors %}
+                            {{ form.title(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                {% for error in form.title.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.title(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.company.label(class='form-control-label') }}
+                        {% if form.company.errors %}
+                            {{ form.company(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.company.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.company(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{form.description.label(class='form-control-label') }}
+                        {% if form.description.errors %}
+                            {{ form.description(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.description(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.expiry_date.label(class='form-control-label') }}
+                        {% if form.expiry_date.errors %}
+                            {{ form.expiry_date(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.expiry_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.expiry_date(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{form.submit(class="btn btn-primary btn-lg btn-block")}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
