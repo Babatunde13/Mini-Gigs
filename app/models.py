@@ -55,6 +55,7 @@ class User(db.Model, UserMixin):
     facebook_link=db.Column(db.String)
     twitter_link=db.Column(db.String)
     linkedin_link=db.Column(db.String)
+    phone_number=db.Column(db.String(20))
     salary_expt=db.Column(db.Integer)
     password=db.Column(db.String(60), nullable=False)
     jobs=db.relationship('Job', #connects the user to the jobs model
@@ -167,4 +168,6 @@ class Skill(db.Model):
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
         return f"User('{self.name}')"
+
+
 

@@ -47,7 +47,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.username.label(class='form-control-label') }}
+                        {{ form.username.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.username.errors %}
                             {{ form.username(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -60,7 +60,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.email.label(class='form-control-label') }}
+                        {{ form.email.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.email.errors %}
                             {{ form.email(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -73,7 +73,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.fname.label(class='form-control-label') }}
+                        {{ form.fname.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.fname.errors %}
                             {{ form.fname(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -86,7 +86,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.lname.label(class='form-control-label') }}
+                        {{ form.lname.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.lname.errors %}
                             {{ form.lname(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -96,6 +96,19 @@
                                 </div>
                         {% else %}
                             {{ form.lname(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.phone.label(class='form-control-label') }} <span style="color: red;">*</span>
+                        {% if form.phone.errors %}
+                            {{ form.phone(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.phone.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.phone(class='form-control-lg form-control') }}
                         {% endif %}
                     </div>
                     <div class="form-check">
@@ -115,7 +128,7 @@
                         {{ form.interests(class='form-check-input') }}
                     </div>
                     <div class="form-group">
-                        {{ form.salary.label(class='form-control-label') }}
+                        {{ form.salary.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.salary.errors %}
                             {{ form.salary(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -128,7 +141,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.linkedin_link.label(class='form-control-label') }}
+                        {{ form.linkedin_link.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.linkedin_link.errors %}
                             {{ form.linkedin_link(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -141,7 +154,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.twitter_link.label(class='form-control-label') }}
+                        {{ form.twitter_link.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.twitter_link.errors %}
                             {{ form.twitter_link(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -154,7 +167,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.facebook_link.label(class='form-control-label') }}
+                        {{ form.facebook_link.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.facebook_link.errors %}
                             {{ form.facebook_link(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">
@@ -167,7 +180,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.address.label(class='form-control-label') }}
+                        {{ form.address.label(class='form-control-label') }} <span style="color: red;">*</span>
                         {% if form.address.errors %}
                             {{ form.address(class='form-control-lg is-invalid form-control') }}
                                 <div class="invalid-feedback">

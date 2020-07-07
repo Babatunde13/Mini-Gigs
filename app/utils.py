@@ -21,7 +21,7 @@ def send_mail(user, template, subject, exp=None, **kwargs):
     msg=Message(sender=app.config['MAIL_USERNAME'],
                 recipients=[user.email],
                 html=render_template(template, token=token, user=user),
-                subject=app.config['MAIL_SUBJECT']+ ' ' +subject)
+                subject=app.config['MAIL_SUBJECT']+ ' - ' +subject)
     mail.send(msg)
 
 def save_pic(image, save_path):

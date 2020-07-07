@@ -10,7 +10,7 @@ from flask_login import  (login_user, logout_user,
 
 #Local imports
 from app import app, db, mail
-from app.forms import (LoginForm, RegisterForm, 
+from app.forms import (LoginForm, RegisterForm, ApplyJob,
                 ResetPasswordForm, NewPasswordForm,
                 UpdateAccountForm, CreateJob)
 from app.models import (User, Job,
@@ -153,7 +153,6 @@ def update_profile():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.resume.data:
-            print(form)
             pic_file = save_pic(form.resume.data, 'static/resume')
             current_user.resume = pic_file
         if form.profile_picture.data:
@@ -163,6 +162,7 @@ def update_profile():
         current_user.email = form.email.data
         current_user.fname = form.fname.data
         current_user.lname = form.lname.data
+        current_user.phone_number = form.phone.data
         current_user.is_super_admin = form.is_admin.data
         current_user.is_actively_interviewing = form.is_actively_interviewing.data
         current_user.is_recruiter = form.is_recruiter.data
@@ -179,14 +179,14 @@ def update_profile():
             1:'Product Design', 2:'UI/UX', 3: 'Software Development', 
             4: 'Artificial Intelligence', 5: 'Data Science', 
             6: 'Game Development', 7: 'Cyber Security'}
+        present_interest=Interest.query.filter(Interest.users.any(username=current_user.username)).all()
+        present_skill=Skill.query.filter(Skill.users.any(username=current_user.username)).all()
         if skill:
-            present_skill=Skill.query.filter(Skill.users.any(username=current_user.username)).all()
             for skl in present_skill:
                 db.session.delete(skl)
             for choice in skill:
                 current_user.skills.append(Skill(name=skills[choice]))  
         if interest:
-            present_interest=Interest.query.filter(Interest.users.any(username=current_user.username)).all()
             for skl in present_interest:
                 db.session.delete(skl)
             for choice in interest:
@@ -199,12 +199,15 @@ def update_profile():
     form.email.data = current_user.email
     form.fname.data = current_user.fname
     form.lname.data = current_user.lname
+    form.phone.data = current_user.phone_number
     form.address.data = current_user.address
     form.is_admin.data = current_user.is_super_admin
     form.is_actively_interviewing.data = current_user.is_actively_interviewing
     form.is_recruiter.data = current_user.is_recruiter
     form.facebook_link.data = current_user.facebook_link
     form.twitter_link.data = current_user.twitter_link
+    # form.interests.data=present_interest
+    # form.skills.data=present_skill
     form.linkedin_link.data = current_user.linkedin_link
     form.salary.data = current_user.salary_expt
     return render_template('updateprofile.html', 
@@ -217,7 +220,7 @@ def confirm():
     if current_user.is_confirmed: # If user is confirmed, then user should be redirected to their profile page
         flash('Your account has been confirmed', 'info')
         return redirect(url_for('profile'))
-    send_mail(current_user, 'mail.html', 'Confirm Account')
+    send_mail(current_user, 'passwordmail.html', 'Confirm Account')
     flash('A confirmation has been sent to your mail', 'info')
     return redirect(url_for('profile'))
 
@@ -254,16 +257,33 @@ def add_job():
         db.session.commit()
         flash('Job added successfully', 'success')
         return redirect(url_for('profile'))
-    return render_template('addjob.html', form=form, title='Create Job')
+    return render_template('addjob.html', 
+                            form=form, 
+                            title='Create Job')
 
 @app.route('/job/<id>')
 @login_required
 def view_job(id):
     job=Job.query.get_or_404(id)
+    print(job.creator_id)
+    print(current_user.id)
     user=User.query.filter_by(id=job.creator_id).first()
-    return render_template('viewjob.html', job=job, title='View Job', user=user)
+    return render_template('viewjob.html', 
+                            job=job, 
+                            title='View Job', 
+                            user=user)
 
-@app.route('/job/apply', methods=['GET', 'POST'])
-def apply():
-    return render_template('apply_job.html')
+@app.route('/job/<id>/apply', methods=['GET', 'POST'])
+@login_required
+def apply(id):
+    form=ApplyJob()
+    job=Job.query.get_or_404(id)
+    if current_user.id==job.creator_id or current_user.is_recruiter:
+        abort(403)
+    if form.validate_on_submit():
+        job.users.append(current_user)
+        db.session.commit()
+        flash("You've successfully applied for the job", 'success')
+        return redirect(url_for('profile'))
+    return render_template('apply_job.html', form=form, job=job)
 

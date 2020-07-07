@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-6 ads">
+                <h1><span id="fl">Mini</span><span id="sl"> Gigs</span></h1>
+            </div>
+            <div class="col-md-6 login-form">
+                <h3>Apply For Job</h3>
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="profile-img">
+                        {% if current_user.profile_picture == 'default.jpg' %}
+                        <img src="{{ current_user.gravatar() }}" alt="profile">
+                        {% else %}
+                            <img class="rounded-img" src="{{ url_for('static', filename='profileimages/'+current_user.profile_picture) }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label(class='form-control-label') }} <span style="color: red;">*</span>
+                        {% if form.email.errors %}
+                            {{ form.email(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.email(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.fname.label(class='form-control-label') }} <span style="color: red;">*</span>
+                        {% if form.fname.errors %}
+                            {{ form.fname(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.fname.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.fname(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.lname.label(class='form-control-label') }} <span style="color: red;">*</span>
+                        {% if form.lname.errors %}
+                            {{ form.lname(class='form-control-lg is-invalid form-control') }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.lname.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                        {% else %}
+                            {{ form.lname(class='form-control-lg form-control') }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{form.submit(class="btn btn-primary btn-lg btn-block")}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <h1>{{ current_user.id }}{{ job.creator_id }}</h1>
+{% endblock %}

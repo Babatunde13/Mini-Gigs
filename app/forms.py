@@ -13,7 +13,8 @@ from wtforms.validators import (
     DataRequired, Length, url,
     Email, EqualTo, ValidationError)
 from flask_wtf.file import FileField, FileAllowed
-from wtforms.fields.html5 import DateField, IntegerField
+from wtforms.fields.html5 import (DateField, IntegerField, 
+                        TelField)
 
 # local imports
 from app.models import User
@@ -119,6 +120,7 @@ class UpdateAccountForm(FlaskForm):
                                     (6, 'Game Development'),
                                     (7, 'Cyber Security')], coerce=int)
     salary=IntegerField('Expected Salary')
+    phone=TelField('Phone Number')
     submit = SubmitField('Update profile')
 
     def validate_username(self, username):
@@ -142,3 +144,12 @@ class CreateJob(FlaskForm):
     description=TextAreaField('Description of Job', validators=[DataRequired()])
     expiry_date=DateField('Expiry date of job', validators=[DataRequired()])
     submit = SubmitField('Create Job')
+
+class ApplyJob(FlaskForm):
+    email=StringField('Email', validators=[DataRequired(),
+                                            Email()])
+    fname=StringField('First Name', validators=[DataRequired(),
+                                                Length(2, 20)])
+    lname=StringField('Last  Name', validators=[DataRequired(),
+                                                Length(2, 20)])
+    submit=SubmitField('Apply For Job')
