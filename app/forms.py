@@ -145,11 +145,3 @@ class CreateJob(FlaskForm):
     expiry_date=DateField('Expiry date of job', validators=[DataRequired()])
     submit = SubmitField('Create Job')
 
-class ApplyJob(FlaskForm):
-    email=StringField('Email', validators=[DataRequired(),
-                                            Email()])
-    fname=StringField('First Name', validators=[DataRequired(),
-                                                Length(2, 20)])
-    lname=StringField('Last  Name', validators=[DataRequired(),
-                                                Length(2, 20)])
-    submit=SubmitField('Apply For Job')

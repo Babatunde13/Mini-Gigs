@@ -10,7 +10,7 @@ from flask_login import  (login_user, logout_user,
 
 #Local imports
 from app import app, db, mail
-from app.forms import (LoginForm, RegisterForm, ApplyJob,
+from app.forms import (LoginForm, RegisterForm,
                 ResetPasswordForm, NewPasswordForm,
                 UpdateAccountForm, CreateJob)
 from app.models import (User, Job,
@@ -288,14 +288,14 @@ def view_job(id):
 @app.route('/job/<id>/apply', methods=['GET', 'POST'])
 @login_required
 def apply(id):
-    form=ApplyJob()
     job=Job.query.get_or_404(id)
-    if current_user.id==job.creator_id or current_user.is_recruiter:
-        abort(403)
-    if form.validate_on_submit():
-        job.users.append(current_user)
-        db.session.commit()
-        flash("You've successfully applied for the job", 'success')
-        return redirect(url_for('profile'))
-    return render_template('apply_job.html', form=form, job=job)
+    if not current_user.resume:
+        flash('You need to upload your resume before applying', 'danger')
+        return redirect(url_for('update_profile'))
+    job.users.append(current_user)
+    db.session.commit()
+    print(job.users.all())
+    flash("You've successfully applied for the job", 'success')
+    return redirect(url_for('profile'))
+    
 
