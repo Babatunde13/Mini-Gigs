@@ -11,8 +11,8 @@ class Config:
     MAIL_SUBJECT='[Mini Gigs]'
     MINI_GIGS_ADMIN=os.environ.get('MINI_GIGS__ADMIN')
     MAIL_PORT=587
-    MAIL_USERNAME=os.environ.get('EMAIL_USER')
-    MAIL_PASSWORD=os.environ.get('EMAIL_PASS')
+    MAIL_USERNAME=os.environ.get('EMAIL_USER') or 'koikibabatunde14@gmail.com'
+    MAIL_PASSWORD=os.environ.get('EMAIL_PASS') or 'nifeaccumulator'
     MAIL_SERVER='smtp.googlemail.com'
 
     @staticmethod
@@ -30,12 +30,12 @@ class TestingConfig(Config):
     '''Testing configurations'''
     TESTING=True
     SQLALCHEMY_DATABASE_URI=os.environ.get('TEST_DATABASE_URL') or \
-         'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
+         'sqlite:///' + os.path.join(basedir, 'data-test.db')
 
 class ProductionConfig(Config):
     '''Production configurations'''
     SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') or \
-         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+         'sqlite:///' + os.path.join(basedir, 'prod.db')
         
 config = {
     'development': DevelopmentConfig,

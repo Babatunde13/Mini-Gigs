@@ -62,6 +62,7 @@ def register():
                 lname=form.lname.data)
         db.session.add(user)
         db.session.commit()
+        send_mail(user, 'welcome.html', 'Thanks for joining')
         flash('Account created successfully.', 'success')
         login_user(user)
         return redirect(url_for('profile'))
@@ -235,7 +236,7 @@ def confirm():
     if current_user.is_confirmed: # If user is confirmed, then user should be redirected to their profile page
         flash('Your account has been confirmed', 'info')
         return redirect(url_for('profile'))
-    send_mail(current_user, 'passwordmail.html', 'Confirm Account') # sends mail to the user
+    send_mail(current_user, 'mail.html', 'Confirm Account') # sends mail to the user
     flash('A confirmation has been sent to your mail', 'info')
     return redirect(url_for('profile'))
 
