@@ -107,18 +107,19 @@
                     <ul class="list-group" style="margin-top:15px;margin-bottom:15px;">
                             {% for user in job.users.all() %}
                                 <li class="list-group-item">
-                                    <a href="{{url_for('profile_', name=user.username)}}">{{user.fname}} {{ user.lname }}</a>
-                                    {% if user.resume %}
                                     <div class="button" style="padding-top:18px">
-                                        {% with res = user.resume %}
-                                        {% with res_path = 'resume/'+res %}
-                                        <a href="{{url_for('static', filename=res_path)}}" class="btn btn-outline-success btn-block" target="_blank" >View resume</a>
-                                        {% endwith %}
-                                        {% endwith %}
+                                        <span>{{user.fname}} {{ user.lname }}</span>
+                                        {% if user.resume %}
+                                            {% with res = user.resume %}
+                                            {% with res_path = 'resume/'+res %}
+                                            <a href="{{url_for('static', filename=res_path)}}" class="btn btn-outline-success" target="_blank" >View resume</a>
+                                            {% endwith %}
+                                            {% endwith %}
+                                        {% else%}
+                                        <small style="padding-top:18px">applicant hasn't upload resume</small>
+                                        {% endif %}
+                                        <a href="{{url_for('profile_', name=user.username)}}" class="btn btn-outline-success" target="_blank" >View Profile</a>
                                     </div>
-                                    {% else%}
-                                    <small style="padding-top:18px">applicant hasn't upload resume</small>
-                                    {% endif %}
                                 </li>
                             {% endfor %}
                     </ul>
