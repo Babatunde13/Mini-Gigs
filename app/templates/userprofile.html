@@ -49,6 +49,15 @@
                         <a href="mailto:{{user.email}}" class="btn btn-outline-success btn-block">Send Email</a>
                     </div>
                     {% endif %}
+                    {% if user.resume and user==current_user %}
+                        <div class="button" style="padding-top:18px">
+                            {% with res = user.resume %}
+                            {% with res_path = 'resume/'+res %}
+                            <a href="{{url_for('static', filename=res_path)}}" class="btn btn-outline-success btn-block" target="_blank" >View resume</a>
+                            {% endwith %}
+                            {% endwith %}
+                        </div>
+                    {% endif %}
                     <div class="social-icons" style="padding-top:18px">
                         {% if user.linkedin_link %}
                         <a href="{{ user.linkedin_link }}">

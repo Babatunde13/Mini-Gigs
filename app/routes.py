@@ -77,6 +77,18 @@ def logout():
 def about():
     return render_template('about.html', title='About Page')
 
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(403)
+def not_found(e):
+    return render_template('403.html'), 403
+
+@app.errorhandler(500)
+def not_found(e):
+    return render_template('500.html'), 500
+
 @app.route('/profile')
 @login_required
 def profile():
@@ -151,6 +163,8 @@ def reset_token(token):
 @login_required
 def update_profile():
     form = UpdateAccountForm()
+    present_interest=Interest.query.filter(Interest.users.any(username=current_user.username)).all()
+    present_skill=Skill.query.filter(Skill.users.any(username=current_user.username)).all()
     if form.validate_on_submit():
         if form.resume.data:
             pic_file = save_pic(form.resume.data, 'static/resume')
@@ -179,8 +193,6 @@ def update_profile():
             1:'Product Design', 2:'UI/UX', 3: 'Software Development', 
             4: 'Artificial Intelligence', 5: 'Data Science', 
             6: 'Game Development', 7: 'Cyber Security'}
-        present_interest=Interest.query.filter(Interest.users.any(username=current_user.username)).all()
-        present_skill=Skill.query.filter(Skill.users.any(username=current_user.username)).all()
         if skill:
             for skl in present_skill:
                 db.session.delete(skl)
@@ -200,14 +212,16 @@ def update_profile():
     form.fname.data = current_user.fname
     form.lname.data = current_user.lname
     form.phone.data = current_user.phone_number
+    if form.phone.data == None:
+        form.phone.data = '+2340000000000'
     form.address.data = current_user.address
     form.is_admin.data = current_user.is_super_admin
     form.is_actively_interviewing.data = current_user.is_actively_interviewing
     form.is_recruiter.data = current_user.is_recruiter
     form.facebook_link.data = current_user.facebook_link
     form.twitter_link.data = current_user.twitter_link
-    # form.interests.data=present_interest
-    # form.skills.data=present_skill
+    form.interests.data=present_interest
+    form.skills.data=present_skill
     form.linkedin_link.data = current_user.linkedin_link
     form.salary.data = current_user.salary_expt
     return render_template('updateprofile.html', 
@@ -249,7 +263,7 @@ def add_job():
         description=form.description.data
         exp_date=form.expiry_date.data
         job=Job(title=title, 
-                comapny=company,
+                company=company,
                 description=description, 
                 expiry_date=exp_date,
                 creator_id=current_user.id)
@@ -265,8 +279,6 @@ def add_job():
 @login_required
 def view_job(id):
     job=Job.query.get_or_404(id)
-    print(job.creator_id)
-    print(current_user.id)
     user=User.query.filter_by(id=job.creator_id).first()
     return render_template('viewjob.html', 
                             job=job, 

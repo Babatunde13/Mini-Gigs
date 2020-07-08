@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-6 login-form">
                 <h3>Update Account</h3>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                     <div class="profile-img">
                         {% if current_user.profile_picture == 'default.jpg' %}

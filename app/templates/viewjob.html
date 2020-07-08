@@ -99,16 +99,27 @@
         </div>
         <!-- End:Description -->
         {% if job.creator_id == current_user.id  %}
-        {% if job.users %}
+        {% if job.users.count()>0 %}
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-block">
                     <h2 class="card-title"  style="color:#009688"><i class="fa fa-rocket fa-fw"></i>Applicants</h2>
-                    <p>You created this job</p>
                     <ul class="list-group" style="margin-top:15px;margin-bottom:15px;">
                             {% for user in job.users.all() %}
-                            {{user}}
-                                <li class="list-group-item"><a href="{{url_for('profile_', name=user.username)}}">{{user.fname}} {{ user.lname }}</a></li>
+                                <li class="list-group-item">
+                                    <a href="{{url_for('profile_', name=user.username)}}">{{user.fname}} {{ user.lname }}</a>
+                                    {% if user.resume %}
+                                    <div class="button" style="padding-top:18px">
+                                        {% with res = user.resume %}
+                                        {% with res_path = 'resume/'+res %}
+                                        <a href="{{url_for('static', filename=res_path)}}" class="btn btn-outline-success btn-block" target="_blank" >View resume</a>
+                                        {% endwith %}
+                                        {% endwith %}
+                                    </div>
+                                    {% else%}
+                                    <small style="padding-top:18px">applicant hasn't upload resume</small>
+                                    {% endif %}
+                                </li>
                             {% endfor %}
                     </ul>
                 </div>

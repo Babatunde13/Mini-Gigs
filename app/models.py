@@ -118,7 +118,7 @@ class Job(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.company}', '{self.expiry_date}')"
+        return f"Job('{self.company}', '{self.expiry_date}')"
     
 
 class WorkExperience(db.Model):
@@ -134,7 +134,7 @@ class WorkExperience(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.title}', '{self.end_date}')"
+        return f"Experience('{self.title}', '{self.end_date}')"
 
 class Education(db.Model):
     '''Education representation in the database. The many side of a one-to-many relationship with user model'''
@@ -149,7 +149,7 @@ class Education(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.title}', '{self.end_date}')"
+        return f"Education('{self.title}', '{self.end_date}')"
 
 class Interest(db.Model):
     '''Interest representation in the database. The many side of a one-to-many relationship with user model'''
@@ -158,7 +158,7 @@ class Interest(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.name}')"
+        return f"Interest('{self.name}')"
 
 class Skill(db.Model):
     '''Skill representation in the database. The many side of a one-to-many relationship with user model'''
@@ -167,7 +167,7 @@ class Skill(db.Model):
 
     def __repr__(self):
         '''This functions describes how the user model will be displayed'''
-        return f"User('{self.name}')"
+        return f"skill('{self.name}')"
 
 
 
