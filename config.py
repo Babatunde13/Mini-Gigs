@@ -5,7 +5,7 @@ import os
 basedir =  os.path.abspath(os.path.dirname(__file__ ))
 
 class Config:
-    '''Common configuration that is used duriin development, production and testing'''
+    '''Common configurations that is used during development, production and testing'''
     SECRET_KEY=os.environ.get('SECRET_KEY') or '302669542ecbae5d1d7a744ea10380d7'
     SQLALCHEMY_COMMIT_ON_TEARDOWN=True
     MAIL_SUBJECT='[Mini Gigs]'

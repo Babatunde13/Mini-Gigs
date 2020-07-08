@@ -107,7 +107,7 @@ def profile():
         return render_template('userprofile.html', user=current_user)
     
 @app.route('/profile/<name>')
-# @login_required
+@login_required
 def profile_(name):
     user=User.query.filter_by(username=name).first_or_404()
     if current_user.is_authenticated and user==current_user:
@@ -143,8 +143,8 @@ def reset_password():
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('profile'))
-    user=User.verify_reset_token(token)
-    if user is None:
+    user=User.verify_reset_token(token) #verifies token
+    if user is None: 
         flash('Token is invalid or has expired', 'warning')
         return redirect(url_for('reset_password'))
     form = NewPasswordForm()
@@ -163,13 +163,14 @@ def reset_token(token):
 @login_required
 def update_profile():
     form = UpdateAccountForm()
+    # generates list of all interests and skills of the user
     present_interest=Interest.query.filter(Interest.users.any(username=current_user.username)).all()
     present_skill=Skill.query.filter(Skill.users.any(username=current_user.username)).all()
     if form.validate_on_submit():
-        if form.resume.data:
+        if form.resume.data: # If user uploads their resume
             pic_file = save_pic(form.resume.data, 'static/resume')
             current_user.resume = pic_file
-        if form.profile_picture.data:
+        if form.profile_picture.data: # If user uploads their profile picture
             pic_file_ = save_pic(form.profile_picture.data, 'static/profileimages')
             current_user.profile_picture = pic_file_
         current_user.username = form.username.data
@@ -234,15 +235,14 @@ def confirm():
     if current_user.is_confirmed: # If user is confirmed, then user should be redirected to their profile page
         flash('Your account has been confirmed', 'info')
         return redirect(url_for('profile'))
-    send_mail(current_user, 'passwordmail.html', 'Confirm Account')
+    send_mail(current_user, 'passwordmail.html', 'Confirm Account') # sends mail to the user
     flash('A confirmation has been sent to your mail', 'info')
     return redirect(url_for('profile'))
 
 @app.route('/confirm/account/<token>')
 @login_required
 def confirm_profile(token):
-    user=User.verify_reset_token(token)
-    user=User.verify_reset_token(token)
+    user=User.verify_reset_token(token) #verifies token 
     if user is None:
         flash('Token is invalid or has expired', 'warning')
         return redirect(url_for('profile'))
@@ -254,10 +254,11 @@ def confirm_profile(token):
 @app.route('/job/new', methods=['GET', 'POST'])
 @login_required
 def add_job():
-    if not current_user.is_recruiter:
+    if not current_user.is_recruiter: #Verifies that user is a recruiter
         abort(403)
+
     form = CreateJob()
-    if form.validate_on_submit():
+    if form.validate_on_submit(): #Creates a job instance if form is validated
         title=form.title.data
         company=form.company.data
         description=form.description.data
@@ -279,7 +280,7 @@ def add_job():
 @login_required
 def view_job(id):
     job=Job.query.get_or_404(id)
-    user=User.query.filter_by(id=job.creator_id).first()
+    user=User.query.filter_by(id=job.creator_id).first() # gets user that posted the job
     return render_template('viewjob.html', 
                             job=job, 
                             title='View Job', 
@@ -289,12 +290,15 @@ def view_job(id):
 @login_required
 def apply(id):
     job=Job.query.get_or_404(id)
+    if current_user.is_recruiter or current_user.id==job.creator_id:
+        abort(403)
+
     if not current_user.resume:
         flash('You need to upload your resume before applying', 'danger')
         return redirect(url_for('update_profile'))
+
     job.users.append(current_user)
     db.session.commit()
-    print(job.users.all())
     flash("You've successfully applied for the job", 'success')
     return redirect(url_for('profile'))
     
