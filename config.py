@@ -11,8 +11,8 @@ class Config:
     MAIL_SUBJECT='[Mini Gigs]'
     MINI_GIGS_ADMIN=os.environ.get('MINI_GIGS__ADMIN')
     MAIL_PORT=587
-    MAIL_USERNAME=os.environ.get('EMAIL_USER') or 'koikibabatunde14@gmail.com'
-    MAIL_PASSWORD=os.environ.get('EMAIL_PASS') or 'nifeaccumulator'
+    MAIL_USERNAME=os.environ.get('EMAIL_USER')
+    MAIL_PASSWORD=os.environ.get('EMAIL_PASS') 
     MAIL_SERVER='smtp.googlemail.com'
 
     @staticmethod
