@@ -6,14 +6,14 @@ basedir =  os.path.abspath(os.path.dirname(__file__ ))
 
 class Config:
     '''Common configurations that is used during development, production and testing'''
-    SECRET_KEY=os.environ.get('SECRET_KEY') or '302669542ecbae5d1d7a744ea10380d7'
+    SECRET_KEY=os.environ.get('SECRET_KEY')
     SQLALCHEMY_COMMIT_ON_TEARDOWN=True
     MAIL_SUBJECT='[Mini Gigs]'
     MINI_GIGS_ADMIN=os.environ.get('MINI_GIGS__ADMIN')
     MAIL_PORT=587
-    MAIL_USERNAME=os.environ.get('EMAIL_USER')
-    MAIL_PASSWORD=os.environ.get('EMAIL_PASS') 
-    MAIL_SERVER='smtp.googlemail.com'
+    MAIL_USERNAME=os.environ.get('MAIL_USER')
+    MAIL_PASSWORD=os.environ.get('MAIL_PASS') 
+    MAIL_SERVER=os.environ.get('MAIL_SERVER')
 
     @staticmethod
     def init_app(app):

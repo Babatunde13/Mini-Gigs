@@ -24,21 +24,26 @@ class LoginForm(FlaskForm):
     email=StringField('Email', validators=[DataRequired(),
                                                 Email()])
     password=PasswordField('Password', validators=[DataRequired(), 
-                                                Length(8, 16)])
+                                                Length(8, 16,
+                                                message='Password must be between 8 and 16 characters')])
     submit = SubmitField('Sign In')
 
 class RegisterForm(FlaskForm):
     '''Registration form'''
     username=StringField('Username', validators=[DataRequired(),
-                                                Length(2, 20)])
+                                                Length(3, 20, 
+                                                message='Username must be between 3 and 20 characters')])
     email=StringField('Email', validators=[DataRequired(),
                                             Email()])
     fname=StringField('First Name', validators=[DataRequired(),
-                                                Length(2, 20)])
+                                                Length(3, 20,
+                                                message='First Name must be between 3 and 20 characters')])
     lname=StringField('Last Name', validators=[DataRequired(),
-                                                Length(2, 20)])
+                                                Length(3, 20,
+                                                message='Last Name must be between 3 and 20 characters')])
     password=PasswordField('Password', validators=[DataRequired(), 
-                                                    Length(8, 16)])
+                                                    Length(8, 16,
+                                                    message='Password must be between 8 and 16 characters')])
     is_recruiter=BooleanField('Are you a recruiter')
     confirm_password=PasswordField('Confirm Password', 
                                     validators=[EqualTo('password', message='Passwords must match')])
@@ -77,7 +82,8 @@ class ResetPasswordForm(FlaskForm):
 class NewPasswordForm(FlaskForm):
     '''Form to fill to change password'''
     password=PasswordField('Password', validators=[DataRequired(), 
-                                                    Length(8, 16)])
+                                                    Length(8, 16,
+                                                    message='Password must be between 8 and 16 characters')])
     confirm_password=PasswordField('Confirm Password', 
                                     validators=[EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Reset Password')
@@ -85,18 +91,23 @@ class NewPasswordForm(FlaskForm):
 class UpdateAccountForm(FlaskForm):
     '''Update Account form'''
     username=StringField('Username', validators=[DataRequired(),
-                                                Length(2, 20)])
+                                                Length(3, 20,
+                                                message='Username must be between 3 and 20 characters')])
     email=StringField('Email', validators=[DataRequired(),
                                             Email()])
     fname=StringField('First Name', validators=[DataRequired(),
-                                                Length(2, 20)])
+                                                Length(3, 20,
+                                                message='First Name must be between 3 and 20 characters')])
     lname=StringField('Last  Name', validators=[DataRequired(),
-                                                Length(2, 20)])
+                                                Length(3, 20,
+                                                message='Last Name must be between 3 and 20 characters')])
     address=TextAreaField('Address', validators=[DataRequired()])
     profile_picture=FileField('Upload Profile Picture', validators=[ 
-                                FileAllowed(['png', 'jpg'])])
+                                FileAllowed(['png', 'jpg'],
+                                        message='File must be a png or jpg file')])
     resume=FileField('Upload Resume', validators=[ 
-                                                         FileAllowed(['pdf', 'docx'])])
+                                FileAllowed(['pdf', 'docx'],
+                                        message='File must be a png or jpg file')])
     is_admin=BooleanField('Are you an Admin')
     is_actively_interviewing=BooleanField('Are you actively in search for job')
     facebook_link=StringField('Facebook url', validators=[url()])
