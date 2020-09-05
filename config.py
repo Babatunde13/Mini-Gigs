@@ -9,7 +9,7 @@ class Config:
     SECRET_KEY=os.environ.get('SECRET_KEY')
     SQLALCHEMY_COMMIT_ON_TEARDOWN=True
     MAIL_SUBJECT='[Mini Gigs]'
-    MINI_GIGS_ADMIN=os.environ.get('MINI_GIGS__ADMIN')
+    MINI_GIGS_ADMIN=['koikibabatunde14@gmail.com']
     MAIL_PORT=587
     MAIL_USERNAME=os.environ.get('MAIL_USER')
     MAIL_PASSWORD=os.environ.get('MAIL_PASS') 
