@@ -9,7 +9,7 @@ class Config:
     SECRET_KEY=os.environ.get('SECRET_KEY')
     SQLALCHEMY_COMMIT_ON_TEARDOWN=True
     MAIL_SUBJECT='[Mini Gigs]'
-    MINI_GIGS_ADMIN=['koikibabatunde14@gmail.com']
+    MINI_GIGS_ADMIN=[os.environ.get('MAIL_USER')]
     MAIL_PORT=587
     MAIL_USERNAME=os.environ.get('MAIL_USER')
     MAIL_PASSWORD=os.environ.get('MAIL_PASS') 
@@ -34,8 +34,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     '''Production configurations'''
-    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') or \
-         'sqlite:///' + os.path.join(basedir, 'prod.db')
+    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URI')    
         
 config = {
     'development': DevelopmentConfig,

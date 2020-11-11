@@ -6,4 +6,4 @@ from app import app
 
 if __name__ == "__main__":
     #runs the app if this module is ran directly.
-    app.run(debug=True)
+    app.run()
