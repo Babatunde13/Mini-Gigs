@@ -22,7 +22,7 @@ login_manager.login_message_category='info'
 login_manager.session_protection='strong'
 
 from config import config
-app.config.from_object(config['development'])
+app.config.from_object(config['production'])
 
 mail= Mail(app)
 migrate = Migrate(app, db)
