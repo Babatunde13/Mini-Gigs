@@ -34,7 +34,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     '''Production configurations'''
-    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URI')    
+    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL')    
         
 config = {
     'development': DevelopmentConfig,
