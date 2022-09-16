@@ -14,7 +14,7 @@ Werkzeug==1.0.1
 WTForms==2.3.1
 gunicorn==20.0.4
 jwt==1.0.0
-Mako==1.1.2
+Mako==1.2.2
 Markdown==3.2.2
 python-dotenv==0.14.0
 psycopg2==2.8.6
